@@ -8,27 +8,36 @@ namespace Shop;
  * @author mat
  * 
  */
-abstract class Model {
+abstract class Model
+{
 
     const NON_EXISTING_ID = -1;
 
     protected $id = self::NON_EXISTING_ID;
     private static $conn = null;
 
-    public static function getConnection() {
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public static function getConnection()
+    {
         if (null === self::$conn) {
             self::$conn = new PDO(DB_DSN, DB_USER, DB_PASS);
         }
         return self::$conn;
     }
 
-    private static function getTableName() {
+    private static function getTableName()
+    {
         $classname = static::class;
         $name = substr($classname, (strrpos($classname, "\\")));
         return $name;
     }
 
-    public static function getById($id) {
+    public static function getById($id)
+    {
         $conn = self::getConnection();
         $name = self::getTableName();
         $stmt = $conn->prepare('SELECT * FROM ' . $name . ' WHERE id=:id');
@@ -43,7 +52,8 @@ abstract class Model {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         if ($this->id != self::NON_EXISTING_ID) {
             $conn = self::getConnection();
             $name = self::getTableName();
@@ -58,7 +68,8 @@ abstract class Model {
         return true;
     }
 
-    public function passVerify($pass) {
+    public function passVerify($pass)
+    {
         return password_verify($pass, $this->password);
     }
 

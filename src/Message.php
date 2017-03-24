@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Shop;
 
 /**
@@ -13,6 +7,29 @@ namespace Shop;
  *
  * @author mat
  */
-class Message {
-    //put your code here
+class Message extends Model
+{
+    protected $userId;
+    protected $message;
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
 }
