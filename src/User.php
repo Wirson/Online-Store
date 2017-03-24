@@ -100,8 +100,18 @@ class User extends Model
 
     public function getAllUserMessages()
     {
+        return getFromDb('Message');
+    }
+
+    public function getAllUserOrders()
+    {
+        return getFromDb('Order');
+    }
+
+    private function getFromDb($table)
+    {
         $conn = self::getConnection();
-        $sql = "SELECT * FROM Message WHERE userId=$this->id";
+        $sql = "SELECT * FROM $table WHERE userId=$this->id";
         $ret = [];
         $result = $conn->query($sql);
         if ($result !== false && $result->rowCount() != 0) {
