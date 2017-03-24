@@ -14,7 +14,7 @@
                         price int NOT NULL,
                         quantity int NOT NULL,
                         description text,
-                        PRIMARY KEY(id),
+                        PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
     "create table Message(
@@ -30,22 +30,14 @@
                         state int NOT NULL,
                         userId int NOT NULL,
                         PRIMARY KEY(id),
-                        FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE,
+                        FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
     "create table OrderProduct(
                         id int AUTO_INCREMENT NOT NULL,
-                        state int NOT NULL,
-                        userId int NOT NULL,
+                        orderId int NOT NULL,
+                        productId int NOT NULL,
                         PRIMARY KEY(id),
-                        FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE,
-     ENGINE=InnoDB, CHARACTER SET=utf8"
-,
-    "create table Frendships(
-                        id int AUTO_INCREMENT NOT NULL,
-                        user1_id int NOT NULL,
-                        user2_id int NOT NULL,
-                        PRIMARY KEY(id),
-                        FOREIGN KEY(user1_id) REFERENCES Users(id) ON DELETE CASCADE,
-                        FOREIGN KEY(user2_id) REFERENCES Users(id) ON DELETE CASCADE)
+                        FOREIGN KEY(orderId) REFERENCES Order(id) ON DELETE CASCADE,
+                        FOREIGN KEY(productId) REFERENCES Product(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8");

@@ -1,18 +1,48 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Shop;
 
 /**
  * Description of Order
  *
- * @author mat
+ * @author tulexx
  */
-class Order {
-    //put your code here
+class Order extends Model
+{
+    protected $state;
+    protected $userId;
+    protected $productId;
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function setUserId($id)
+    {
+        $this->userId;
+        return $this;
+    }
+
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    public function setProductId($id)
+    {
+        $this->productId;
+        return $this;
+    }
 }
