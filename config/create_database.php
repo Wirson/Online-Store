@@ -6,9 +6,17 @@ $twitterArraysSQL = array(
                         id int AUTO_INCREMENT NOT NULL,
                         name varchar(255) NOT NULL,
                         surname varchar(255) NOT NULL,
-                        email varchar(255) NOT NULL,
+                        email varchar(255) NOT NULL UNIQUE,
                         password varchar(60) NOT NULL,
                         address text,
+                        PRIMARY KEY(id))
+     ENGINE=InnoDB, CHARACTER SET=utf8"
+,
+    "create table Admin(
+                        id int AUTO_INCREMENT NOT NULL,
+                        name varchac(255) NOT NULL,
+                        email varchar(255) NOT NULL UNIQUE,
+                        password varchar(60) NOT NULL,
                         PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
