@@ -36,6 +36,6 @@ class UserTest extends \PHPUnit\DbUnit\TestCase
         $user = User::getById(1);
         $user->delete();
 
-        $this->assertFalse($user = User::getById(1));
+        $this->assertFalse(User::getById(1));
     }
 }
