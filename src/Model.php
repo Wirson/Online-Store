@@ -74,6 +74,8 @@ abstract class Model
             }
             $stmt = $conn->prepare(substr_replace($sql1, '', -2) . ') ' . substr_replace($sql2, '', -2) . ')');
 
+            $result = $stmt->execute($array);
+
             if ($result !== false) {
                 $this->id = (int)$conn->lastInsertId();
                 return true;
