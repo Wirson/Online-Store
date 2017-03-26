@@ -76,32 +76,6 @@ class User extends Model
         $this->address = $address;
     }
 
-    public function saveToDB()
-    {
-        //todo reflection, move to Model.php
-        if ($this->id == self::NON_EXISTING_ID) {
-            $conn = self::getConnection();
-            $name = self::getTableName();
-            $stmt = $conn->prepare('INSERT INTO ' . $name . 
-                's' . 
-                ' (name, surname, email, password, address) VALUES (:name, :surname, :email, :password, :address)');
-            $result = $stmt->execute(
-                    [
-                        'name' => $this->name,
-                        'surname' => $this->surname,
-                        'email' => $this->email,
-                        'password' => $this->password,
-                        'address' => $this->address
-                    ]
-            );
-
-            if ($result !== false) {
-                $this->id = (int)$conn->lastInsertId();
-                return true;
-            }
-        }
-    }
-
     public function getAllUserMessages()
     {
         return getFromDb('Message');
