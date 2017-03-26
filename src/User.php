@@ -2,6 +2,8 @@
 
 namespace Shop;
 
+use Shop\Model;
+
 /**
  * Description of User
  *
@@ -15,14 +17,14 @@ class User extends Model
     protected $password;
     protected $address;
 
-    public function __construct($name, $surname, $email, $password, $address)
-    {
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->email = $email;
-        $this->password = $password;
-        $this->address = $address;
-    }
+    // public function __construct($name, $surname, $email, $password, $address)
+    // {
+    //     $this->name = $name;
+    //     $this->surname = $surname;
+    //     $this->email = $email;
+    //     $this->password = $password;
+    //     $this->address = $address;
+    // }
 
     public function getName()
     {
@@ -80,7 +82,9 @@ class User extends Model
         if ($this->id == self::NON_EXISTING_ID) {
             $conn = self::getConnection();
             $name = self::getTableName();
-            $stmt = $conn->prepare('INSERT INTO ' . $name . '(name, surname, email, password, address) VALUES (:name, :surname, :email, :password, :address)');
+            $stmt = $conn->prepare('INSERT INTO ' . $name . 
+                's' . 
+                ' (name, surname, email, password, address) VALUES (:name, :surname, :email, :password, :address)');
             $result = $stmt->execute(
                     [
                         'name' => $this->name,
@@ -92,7 +96,7 @@ class User extends Model
             );
 
             if ($result !== false) {
-                $this->id = $conn->lastInsertId();
+                $this->id = (int)$conn->lastInsertId();
                 return true;
             }
         }
@@ -111,7 +115,9 @@ class User extends Model
     private function getFromDb($table)
     {
         $conn = self::getConnection();
-        $sql = "SELECT * FROM $table WHERE userId=$this->id";
+        $sql = "SELECT * FROM $table" . 
+            's' . 
+            " WHERE userId=$this->id";
         $ret = [];
         $result = $conn->query($sql);
         if ($result !== false && $result->rowCount() != 0) {

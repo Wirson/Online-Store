@@ -24,15 +24,15 @@ abstract class Model
     public static function getConnection()
     {
         if (null === self::$conn) {
-            self::$conn = new PDO(DB_DSN, DB_USER, DB_PASS);
+            self::$conn = new \PDO(DB_DSN, DB_USER, DB_PASS);
         }
         return self::$conn;
     }
 
-    private static function getTableName()
+    public static function getTableName()
     {
         $classname = static::class;
-        $name = substr($classname, (strrpos($classname, "\\")));
+        $name = substr($classname, (strrpos($classname, "\\")) + 1);
         return $name;
     }
 
@@ -40,7 +40,9 @@ abstract class Model
     {
         $conn = self::getConnection();
         $name = self::getTableName();
-        $stmt = $conn->prepare('SELECT * FROM ' . $name . ' WHERE id=:id');
+        $stmt = $conn->prepare('SELECT * FROM ' . $name . 
+            's' . //because table names have s in database
+            ' WHERE id=:id');
         $result = $stmt->execute(['id' => $id]);
         if ($result === true && $stmt->rowCount() > 0) {
             $attr = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,7 +59,9 @@ abstract class Model
         if ($this->id != self::NON_EXISTING_ID) {
             $conn = self::getConnection();
             $name = self::getTableName();
-            $stmt = $conn->prepare('DELETE FROM ' . $name . ' WHERE id=:id');
+            $stmt = $conn->prepare('DELETE FROM ' . $name . 
+                's' . //because table names have s in database
+                ' WHERE id=:id');
             $result = $stmt->execute(['id' => $this->id]);
             if ($result === true) {
                 $this->id = self::NON_EXISTING_ID;
