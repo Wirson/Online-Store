@@ -55,6 +55,27 @@ abstract class Model
         return false;
     }
 
+    public static function getByEmail($email)
+    {
+        $name = self::getTableName();
+        if ($name == 'User' || $name == 'Admin') {
+            $conn = self::getConnection();
+            $stmt = $conn->prepare('SELECT * FROM ' . $name . 
+                's' . //because table names have s in database
+                ' WHERE email=:email');
+            $result = $stmt->execute(['email' => $email]);
+            if ($result == true && $stmt->rowCount() > 0) {
+                $attr = $stmt->fetch(\PDO::FETCH_ASSOC);
+                $object = new static;
+                foreach ($attr as $key => $value) {
+                    $object->$key = $value;
+                }
+                return $object;
+            }
+            return false;
+        }
+    }
+
     public function saveToDB()
     {
         if ($this->id == self::NON_EXISTING_ID) {

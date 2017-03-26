@@ -38,4 +38,11 @@ class UserTest extends \PHPUnit\DbUnit\TestCase
 
         $this->assertFalse(User::getById(1));
     }
+
+    public function testUserByEmail()
+    {
+        $user = User::getByEmail('test@test.pl');
+
+        $this->assertEquals(1, $user->getId());
+    }
 }
