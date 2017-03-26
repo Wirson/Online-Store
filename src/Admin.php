@@ -1,19 +1,48 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Shop;
+
+use Shop\Model;
 
 /**
  * Description of Admin
  *
- * @author mat
+ * @author tulexx
  */
 class Admin extends Model
 {
+    protected $name;
+    protected $email;
+    protected $password;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
+    }
     
 }
