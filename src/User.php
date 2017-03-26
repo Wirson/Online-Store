@@ -75,7 +75,7 @@ class User extends Model
     {
         $this->address = $address;
     }
-
+    
     public function saveToDB()
     {
         //todo reflection, move to Model.php
@@ -104,7 +104,7 @@ class User extends Model
     
     public static function loadUserByEmail($email) {
         $conn = self::getConnection();
-        $stmt = $conn->prepare('SELECT * FROM User WHERE email=:email');
+        $stmt = $conn->prepare('SELECT * FROM Users WHERE email=:email');
         $result = $stmt->execute(['email' => $email]);
         if ($result === true && $stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -119,23 +119,21 @@ class User extends Model
         }
         return null;
     }
-
+    
     public function getAllUserMessages()
     {
-        return getFromDb('Message');
+        return getFromDb('Messages');
     }
 
     public function getAllUserOrders()
     {
-        return getFromDb('Order');
+        return getFromDb('Orders');
     }
 
     private function getFromDb($table)
     {
         $conn = self::getConnection();
-        $sql = "SELECT * FROM $table" . 
-            's' . 
-            " WHERE userId=$this->id";
+        $sql = "SELECT * FROM $table WHERE userId=$this->id";
         $ret = [];
         $result = $conn->query($sql);
         if ($result !== false && $result->rowCount() != 0) {

@@ -44,13 +44,63 @@ abstract class Model
             's' . //because table names have s in database
             ' WHERE id=:id');
         $result = $stmt->execute(['id' => $id]);
-        if ($result === true && $stmt->rowCount() > 0) {
-            $attr = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result == true && $stmt->rowCount() > 0) {
+            $attr = $stmt->fetch(\PDO::FETCH_ASSOC);
             $object = new static;
             foreach ($attr as $key => $value) {
                 $object->$key = $value;
             }
             return $object;
+        }
+        return false;
+    }
+
+    public static function getByEmail($email)
+    {
+        $name = self::getTableName();
+        if ($name == 'User' || $name == 'Admin') {
+            $conn = self::getConnection();
+            $stmt = $conn->prepare('SELECT * FROM ' . $name . 
+                's' . //because table names have s in database
+                ' WHERE email=:email');
+            $result = $stmt->execute(['email' => $email]);
+            if ($result == true && $stmt->rowCount() > 0) {
+                $attr = $stmt->fetch(\PDO::FETCH_ASSOC);
+                $object = new static;
+                foreach ($attr as $key => $value) {
+                    $object->$key = $value;
+                }
+                return $object;
+            }
+            return false;
+        }
+    }
+
+    public function saveToDB()
+    {
+        if ($this->id == self::NON_EXISTING_ID) {
+            $conn = self::getConnection();
+            $name = self::getTableName();
+            $array = [];
+            $sql1 = 'INSERT INTO ' . $name . 
+                's' . 
+                ' (';
+            $sql2 = 'VALUES (';
+            foreach (get_object_vars($this) as $key => $value) {
+                if ($key != 'id') {
+                    $array[$key] = $value;
+                    $sql1 .= $key . ', ';
+                    $sql2 .= ':' . $key . ', ';
+                }
+            }
+            $stmt = $conn->prepare(substr_replace($sql1, '', -2) . ') ' . substr_replace($sql2, '', -2) . ')');
+
+            $result = $stmt->execute($array);
+
+            if ($result !== false) {
+                $this->id = (int)$conn->lastInsertId();
+                return true;
+            }
         }
     }
 
@@ -63,7 +113,7 @@ abstract class Model
                 's' . //because table names have s in database
                 ' WHERE id=:id');
             $result = $stmt->execute(['id' => $this->id]);
-            if ($result === true) {
+            if ($result == true) {
                 $this->id = self::NON_EXISTING_ID;
                 return true;
             }

@@ -3,8 +3,6 @@
 <database name="shop">
 	<table_data name="Admins">
 	</table_data>
-	<table_data name="Messages">
-	</table_data>
 	<table_data name="Orders">
 	</table_data>
 	<table_data name="OrdersProducts">
@@ -21,6 +19,13 @@
 		<field name="email">test@test.pl</field>
 		<field name="password">$2y$10$tUn2AglJP1IZJqUNQFXlz.unc5Zl9frKYMkb1vwM1W0sQem4bjwyK</field>
 		<field name="address">test addreess</field>
+	</row>
+	</table_data>
+	<table_data name="Messages">
+	<row>
+		<field name="id">1</field>
+		<field name="userId">1</field>
+		<field name="message">testing message</field>
 	</row>
 	</table_data>
 </database>

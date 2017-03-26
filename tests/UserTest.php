@@ -30,4 +30,19 @@ class UserTest extends \PHPUnit\DbUnit\TestCase
 
         $this->assertSame(2, $user->getId());
     }
+
+    public function testUserDeletion()
+    {
+        $user = User::getById(1);
+        $user->delete();
+
+        $this->assertFalse(User::getById(1));
+    }
+
+    public function testUserByEmail()
+    {
+        $user = User::getByEmail('test@test.pl');
+
+        $this->assertEquals(1, $user->getId());
+    }
 }
