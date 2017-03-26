@@ -1,11 +1,12 @@
 <?php
 
 use Shop\Message;
+use PHPUnit\DbUnit\TestCase;
 
 /**
  * @author tulexx
  */
-class MessageTest extends \PHPUnit\DbUnit\TestCase
+class MessageTest extends TestCase
 {
     protected function getConnection()
     {
