@@ -96,12 +96,12 @@ class User extends Model
     //
     public function getAllUserMessages()
     {
-        return getFromDb('Messages');
+        return $this->getFromDb('Messages');
     }
 
     public function getAllUserOrders()
     {
-        return getFromDb('Orders');
+        return $this->getFromDb('Orders');
     }
 
     private function getFromDb($table)
