@@ -101,6 +101,24 @@ class User extends Model
             }
         }
     }
+    
+    public static function loadUserByEmail($email) {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare('SELECT * FROM User WHERE email=:email');
+        $result = $stmt->execute(['email' => $email]);
+        if ($result === true && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->name = $row['name'];
+            $loadedUser->surname = $row['surname'];
+            $loadedUser->email = $row['email'];
+            $loadedUser->password = $row['password'];
+            $loadedUser->address = $row['address'];
+            return $loadedUser;
+        }
+        return null;
+    }
 
     public function getAllUserMessages()
     {
