@@ -58,6 +58,7 @@ abstract class Model
     public static function getByEmail($email)
     {
         $name = self::getTableName();
+        //only works on Users and Admins
         if ($name == 'User' || $name == 'Admin') {
             $conn = self::getConnection();
             $stmt = $conn->prepare('SELECT * FROM ' . $name . 

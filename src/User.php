@@ -76,50 +76,24 @@ class User extends Model
         $this->address = $address;
     }
     
-    public function saveToDB()
-    {
-        //todo reflection, move to Model.php
-        if ($this->id == self::NON_EXISTING_ID) {
-            $conn = self::getConnection();
-            $name = self::getTableName();
-            $stmt = $conn->prepare('INSERT INTO ' . $name . 
-                's' . 
-                ' (name, surname, email, password, address) VALUES (:name, :surname, :email, :password, :address)');
-            $result = $stmt->execute(
-                    [
-                        'name' => $this->name,
-                        'surname' => $this->surname,
-                        'email' => $this->email,
-                        'password' => $this->password,
-                        'address' => $this->address
-                    ]
-            );
-
-            if ($result !== false) {
-                $this->id = (int)$conn->lastInsertId();
-                return true;
-            }
-        }
-    }
-    
-    public static function loadUserByEmail($email) {
-        $conn = self::getConnection();
-        $stmt = $conn->prepare('SELECT * FROM Users WHERE email=:email');
-        $result = $stmt->execute(['email' => $email]);
-        if ($result === true && $stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $loadedUser = new User();
-            $loadedUser->id = $row['id'];
-            $loadedUser->name = $row['name'];
-            $loadedUser->surname = $row['surname'];
-            $loadedUser->email = $row['email'];
-            $loadedUser->password = $row['password'];
-            $loadedUser->address = $row['address'];
-            return $loadedUser;
-        }
-        return null;
-    }
-    
+    // public static function loadUserByEmail($email) {
+    //     $conn = self::getConnection();
+    //     $stmt = $conn->prepare('SELECT * FROM Users WHERE email=:email');
+    //     $result = $stmt->execute(['email' => $email]);
+    //     if ($result == true && $stmt->rowCount() > 0) {
+    //         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    //         $loadedUser = new User();
+    //         $loadedUser->id = $row['id'];
+    //         $loadedUser->name = $row['name'];
+    //         $loadedUser->surname = $row['surname'];
+    //         $loadedUser->email = $row['email'];
+    //         $loadedUser->password = $row['password'];
+    //         $loadedUser->address = $row['address'];
+    //         return $loadedUser;
+    //     }
+    //     return false;
+    // }
+    //
     public function getAllUserMessages()
     {
         return getFromDb('Messages');

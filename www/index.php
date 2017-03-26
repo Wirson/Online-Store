@@ -1,13 +1,9 @@
 <?php
 use Shop\User;
 require_once __DIR__ . '/../bootstrap.php';
-var_dump($_SESSION);
-if (isset($_SESSION['userId'])) {
-    header("Location: index.php");
-}
 //check user, head to main page
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user = User::loadUserByEmail($_POST['email']);
+    $user = User::getByEmail($_POST['email']);//User::loadUserByEmail($_POST['email']);
     if ($user != null) {
         if ($user->passVerify($_POST['password'])) {
             $_SESSION ['userId'] = $user->getId();
