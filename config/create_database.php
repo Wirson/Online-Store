@@ -1,8 +1,8 @@
 <?php
-require_once("connection.php");
+require_once __DIR__ . "/connection.php";
 
 $twitterArraysSQL = array(
-    "create table User(
+    "create table Users(
                         id int AUTO_INCREMENT NOT NULL,
                         name varchar(255) NOT NULL,
                         surname varchar(255) NOT NULL,
@@ -12,15 +12,15 @@ $twitterArraysSQL = array(
                         PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table Admin(
+    "create table Admins(
                         id int AUTO_INCREMENT NOT NULL,
-                        name varchac(255) NOT NULL,
+                        name varchar(255) NOT NULL,
                         email varchar(255) NOT NULL UNIQUE,
                         password varchar(60) NOT NULL,
                         PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table Product(
+    "create table Products(
                         id int AUTO_INCREMENT NOT NULL,
                         name varchar(255) NOT NULL,
                         price int NOT NULL,
@@ -29,7 +29,14 @@ $twitterArraysSQL = array(
                         PRIMARY KEY(id))
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table Message(
+    "create table ProductImgs(
+                        id int AUTO_INCREMENT NOT NULL,
+                        name varchar(255) NOT NULL UNIQUE,
+                        productId int NOT NULL,
+                        PRIMARY KEY(id))
+     ENGINE=InnoDB, CHARACTER SET=utf8"
+,
+    "create table Messages(
                         id int AUTO_INCREMENT NOT NULL,
                         userId int NOT NULL,
                         message text NOT NULL,
@@ -37,7 +44,7 @@ $twitterArraysSQL = array(
                         FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table Order(
+    "create table Orders(
                         id int AUTO_INCREMENT NOT NULL,
                         state int NOT NULL,
                         userId int NOT NULL,
@@ -45,24 +52,22 @@ $twitterArraysSQL = array(
                         FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8"
 ,
-    "create table OrderProduct(
+    "create table OrdersProducts(
                         id int AUTO_INCREMENT NOT NULL,
                         orderId int NOT NULL,
                         productId int NOT NULL,
                         PRIMARY KEY(id),
-                        FOREIGN KEY(orderId) REFERENCES Order(id) ON DELETE CASCADE,
-                        FOREIGN KEY(productId) REFERENCES Product(id) ON DELETE CASCADE)
+                        FOREIGN KEY(orderId) REFERENCES Orders(id) ON DELETE CASCADE,
+                        FOREIGN KEY(productId) REFERENCES Products(id) ON DELETE CASCADE)
      ENGINE=InnoDB, CHARACTER SET=utf8");
 
 foreach($twitterArraysSQL as $query){
     $result = $conn->query($query);
-    if ($result === TRUE) {
-        echo "Tabela zostala stworzona poprawnie<br>";
+    if ($result) {
+        echo "Tabela zostala stworzona poprawnie" . PHP_EOL; //"<br>";
     } else {
-        echo "Blad podczas tworzenia tabeli: " . $conn->error."<br>";
+        echo "Blad podczas tworzenia tabeli: " . $conn->errorInfo()[2] . PHP_EOL; //"<br>";
     }
 }
 
-
-$conn->close();
 $conn = null;
